@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TodoService } from './todo.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import TodoCheckboxUpdate from '../models/TodoCheckboxUpdate';
+import TodoTextUpdate from '../models/TodoTextUpdate';
 import ErrorData from '../models/ErrorData';
 import Todo from '../models/Todo';
 
@@ -52,7 +53,7 @@ export class AppComponent implements OnInit {
     )
   }
 
-  todoUpdateHandler(data: TodoCheckboxUpdate) {
+  todoUpdateHandler(data: TodoCheckboxUpdate | TodoTextUpdate) {
     this.todoService.updateTodo(data).subscribe(
       () => this.getAllTodos(),
       (error: HttpErrorResponse) => this.errorHandler(error)

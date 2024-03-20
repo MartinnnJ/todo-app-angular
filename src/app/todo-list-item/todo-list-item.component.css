@@ -4,7 +4,7 @@ li {
   gap: 1rem;
 }
 
-input {
+input[type="checkbox"] {
   margin-top: 0;
   cursor: pointer;
 }
@@ -13,10 +13,39 @@ p {
   margin-bottom: 0;
 }
 
-button {
+.input-field {
+  position: relative;
+  width: 100%;
+}
+
+.input-field small {
+  position: absolute;
+  top: 50%;
+  right: .5rem;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.btns {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   margin-left: auto;
+}
+
+.btns small {
+  cursor: pointer;
+}
+
+.btns small:hover {
+  text-decoration: underline;
 }
 
 .linethrough {
   text-decoration: line-through;
+}
+
+.incorrect {
+  border-color: red;
+  box-shadow: 0 0 0 0.2rem rgba(209, 5, 5, 0.25);
 }

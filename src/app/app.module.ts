@@ -9,6 +9,7 @@ import { TodoListItemComponent } from './todo-list-item/todo-list-item.component
 import { TodoSelectComponent } from './todo-select/todo-select.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { LoadingMessageComponent } from './loading-message/loading-message.component';
+import { AutofocusDirective } from './autofocus.directive';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { LoadingMessageComponent } from './loading-message/loading-message.compo
     TodoListItemComponent,
     TodoSelectComponent,
     LoadingSpinnerComponent,
-    LoadingMessageComponent
+    LoadingMessageComponent,
+    AutofocusDirective
   ],
   imports: [
     BrowserModule,
