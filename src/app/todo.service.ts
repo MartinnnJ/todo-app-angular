@@ -8,6 +8,8 @@ import Todo from '../models/Todo';
 })
 export class TodoService {
   baseUrl = 'http://127.0.0.1:3000';
+  minTodoTextLength = 2;
+  maxTodoTextLength = 50;
 
   constructor(private http: HttpClient) {}
 

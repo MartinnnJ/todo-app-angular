@@ -45,28 +45,25 @@ export class AppComponent implements OnInit {
     (error: HttpErrorResponse) => this.errorHandler(error))
   }
 
-  todoSubmitHandler(textData: string) {
-    this.todoService.addTodo(textData).subscribe((data: Todo) => {
-      this.getAllTodos();
-      console.log(data);
-    },
-    (error: HttpErrorResponse) => this.errorHandler(error))
+  todoCreateHandler(textData: string) {
+    this.todoService.addTodo(textData).subscribe(
+      () => this.getAllTodos(),
+      (error: HttpErrorResponse) => this.errorHandler(error)
+    )
   }
 
   todoUpdateHandler(data: TodoCheckboxUpdate) {
-    this.todoService.updateTodo(data).subscribe((data: Todo) => {
-      this.getAllTodos();
-      console.log(data);
-    },
-    (error: HttpErrorResponse) => this.errorHandler(error))
+    this.todoService.updateTodo(data).subscribe(
+      () => this.getAllTodos(),
+      (error: HttpErrorResponse) => this.errorHandler(error)
+    )
   }
 
   todoDeleteHandler(todoId: string) {
-    this.todoService.deleteTodo(todoId).subscribe((data: Todo) => {
-      this.getAllTodos();
-      console.log(data);
-    },
-    (error: HttpErrorResponse) => this.errorHandler(error))
+    this.todoService.deleteTodo(todoId).subscribe(
+      () => this.getAllTodos(),
+      (error: HttpErrorResponse) => this.errorHandler(error)
+    )
   }
 
   ngOnInit(): void {
