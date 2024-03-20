@@ -1,0 +1,19 @@
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+button {
+  width: 20%;
+}
+
+input {
+  flex: 1;
+}
+
+.incorrect {
+  border-color: red;
+  box-shadow: 0 0 0 0.2rem rgba(209, 5, 5, 0.25);
+}

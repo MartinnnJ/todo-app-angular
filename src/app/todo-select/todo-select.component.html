@@ -1,0 +1,12 @@
+<select
+  class="form-select mb-5"
+  (change)="selectChangeHandler($event)"
+>
+  <option
+    *ngFor="let obj of selectData"
+    [value]="obj.value"
+    [selected]="obj.value === selectValue"
+  >
+    {{ obj.label }}
+  </option>
+</select>

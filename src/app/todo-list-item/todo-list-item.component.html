@@ -1,0 +1,18 @@
+<li class="border p-2 mb-3 rounded">
+  <input
+    class="form-check-input"
+    type="checkbox"
+    [checked]="isComplete"
+    (change)="checkboxChangeHandler(isComplete, todoId)"
+  />
+  <p
+    [ngClass]="cssClasses"
+  >
+    {{ todoText }}
+  </p>
+  <button
+    type="button"
+    class="btn-close"
+    (click)="buttonClickHandler(todoId)"
+  ></button>
+</li>
