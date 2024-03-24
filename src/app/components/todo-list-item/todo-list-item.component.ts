@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TodoService } from '../todo.service';
-import TodoCheckboxUpdate from '../../models/TodoCheckboxUpdate';
-import TodoTextUpdate from '../../models/TodoTextUpdate';
+import { TodoService } from '../../todo.service';
+import TodoCheckboxUpdate from '../../models/todo-checkbox-update.model';
+import TodoTextUpdate from '../../models/todo-text-update.model';
 
 @Component({
   selector: 'app-todo-list-item',
@@ -10,8 +10,8 @@ import TodoTextUpdate from '../../models/TodoTextUpdate';
 })
 export class TodoListItemComponent implements OnInit {
   isEditing = false;
-  inputEditText = '';
-  incorrectInput = false;
+  inCorrectFormSubmit = false; // two-way binding
+  inputEditText = ''; // two-way binding
 
   @Input() todoId!: string;
   @Input() todoText!: string;
@@ -26,10 +26,6 @@ export class TodoListItemComponent implements OnInit {
     this.inputEditText = this.todoText;
   }
 
-  get inputClasses() {
-    return this.incorrectInput ? ['form-control', 'incorrect'] : ['form-control'];
-  }
-
   get todoTextClasses() {
     return this.isComplete ? ['linethrough', 'text-muted'] : [];
   }
@@ -38,43 +34,37 @@ export class TodoListItemComponent implements OnInit {
     return this.todoIsComplete ? true : false;
   }
 
-  get updateButtonOutputText() {
-    return this.isEditing ? 'Save' : 'Edit';
-  }
-
   inputChangeHandler(event: Event) {
     const el = event.target! as HTMLInputElement;
     this.inputEditText = el.value;
-    this.incorrectInput = false;
   }
 
   checkboxChangeHandler(val: boolean, id: string) {
-    this.updateTodo.emit(new TodoCheckboxUpdate(id, val));
+    this.updateTodo.emit(
+      new TodoCheckboxUpdate(id, val)
+    );
   }
 
-  updateButtonClickHandler(id: string) { // edit, save button handler
-    this.isEditing = !this.isEditing;
-    
-    if (!this.isEditing) {
-      if (
-        this.inputEditText.length > this.todoService.minTodoTextLength &&
-        this.inputEditText.length < this.todoService.maxTodoTextLength
-      ) {
-        this.updateTodo.emit(new TodoTextUpdate(id, this.inputEditText));
-      } else {
-        this.incorrectInput = true;
-        this.isEditing = true;
-      }
+  formSubmitHandler(event: SubmitEvent, id: string) {
+    event.preventDefault();
+    if (
+      this.inputEditText.length > this.todoService.minTodoTextLength &&
+      this.inputEditText.length < this.todoService.maxTodoTextLength
+    ) {
+      this.updateTodo.emit(
+        new TodoTextUpdate(id, this.inputEditText)
+      );
+    } else {
+      this.inCorrectFormSubmit = true;
     }
-  }
-
-  deleteButtonClickHandler(id: string) {
-    this.deleteTodo.emit(id);
   }
 
   cancelEditButtonClickHandler() {
     this.isEditing = false;
-    this.incorrectInput = false;
     this.inputEditText = this.todoText;
+  }
+
+  deleteButtonClickHandler(id: string) {
+    this.deleteTodo.emit(id);
   }
 }

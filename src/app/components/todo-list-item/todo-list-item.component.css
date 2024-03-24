@@ -13,9 +13,28 @@ p {
   margin-bottom: 0;
 }
 
-.input-field {
-  position: relative;
+form {
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+button[type="submit"] {
+  font-size: 15px;
+  padding: 0;
+  border: none;
+  background-color: #fff;
+}
+
+button[type="submit"]:hover {
+  text-decoration: underline;
+}
+
+.input-field {
+  width: 100%;
+  position: relative;
 }
 
 .input-field small {

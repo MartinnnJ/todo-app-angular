@@ -4,10 +4,12 @@
 >
   <input
     type="text"
-    [ngClass]="cssClasses"
+    class="form-control"
     placeholder="New todo text"
     (input)="inputChangeHandler($event)"
-    [value]="inputText"
+    [(value)]="inputText"
+    [(isInputInCorrect)]="inCorrectFormSubmit"
+    appInCorrectInput
   >
   <button type="submit" class="btn btn-primary">Add New Todo</button>
 </form>

@@ -9,29 +9,29 @@
   />
 
   <app-todo-select
-    [(selectValue)]="todoFilterValue"
+    [(selectValue)]="filterValue"
   />
 
   <app-loading-message
-    *ngIf="errorData.isLoadingError"
-    [statusCode]="errorData.errorStatusCode"
-    [statusText]="errorData.errorStatusText"
-    [errorMessage]="errorData.errorMessage"
+    *ngIf="errorState.isLoadingError"
+    [statusCode]="errorState.errorStatusCode"
+    [statusText]="errorState.errorStatusText"
+    [errorMessage]="errorState.errorMessage"
   />
 
   <app-loading-spinner
-    *ngIf="isLoading"
+    *ngIf="isLoadingTodos"
   />
 
   <p
     class="lead text-center"
-    *ngIf="filteredTodos.length === 0 && !isLoading && !errorData.isLoadingError"
+    *ngIf="filteredTodos.length === 0 && noLoadingError"
   >
     No todos to display
   </p>
 
   <app-todo-list
-    *ngIf="filteredTodos.length > 0 && !isLoading && !errorData.isLoadingError"
+    *ngIf="filteredTodos.length > 0 && noLoadingError"
   >
     <app-todo-list-item
       *ngFor="let todo of filteredTodos"

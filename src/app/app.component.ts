@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoService } from './todo.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import TodoCheckboxUpdate from '../models/TodoCheckboxUpdate';
-import TodoTextUpdate from '../models/TodoTextUpdate';
-import ErrorData from '../models/ErrorData';
-import Todo from '../models/Todo';
+import TodoCheckboxUpdate from './models/todo-checkbox-update.model';
+import TodoTextUpdate from './models/todo-text-update.model';
+import Todo from './models/todo.model';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +10,13 @@ import Todo from '../models/Todo';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  isLoading = false;
-  errorData = new ErrorData();
-  todos: Todo[] = [];
-  todoFilterValue = "0"; // two-way binding
+  filterValue = "0"; // two-way binding
 
   constructor(private todoService: TodoService) {}
+
+  ngOnInit(): void {
+    this.todoLoadHandler();
+  }
 
   get filteredTodos() {
     const filterOptions = [
@@ -25,49 +24,41 @@ export class AppComponent implements OnInit {
       (todo: Todo) => todo.isComplete === true,
       (todo: Todo) => todo.isComplete === false,
     ];
-
-    return this.todos.filter(filterOptions[+this.todoFilterValue]);
+    return this.todoService.todos
+      .filter(filterOptions[+this.filterValue]);
   }
 
-  errorHandler(error: HttpErrorResponse) {
-    if (!error.ok) {
-      this.isLoading = false;
-      this.errorData = new ErrorData(true, error.status, error.statusText, error.message);
-    }
+  get noLoadingError() {
+    return !this.todoService.todosAreLoading &&
+      !this.todoService.errorData.isLoadingError;
   }
 
-  getAllTodos() {
-    this.isLoading = true;
-    this.todoService.getTodos().subscribe((data: Todo[]) => {
-      this.todos = data;
-      this.isLoading = false;
-      this.errorData = new ErrorData(false, null, null, null);
-    },
-    (error: HttpErrorResponse) => this.errorHandler(error))
+  get isLoadingTodos() {
+    return this.todoService.todosAreLoading;
+  }
+
+  get errorState() {
+    return {
+      isLoadingError: this.todoService.errorData.isLoadingError,
+      errorStatusCode: this.todoService.errorData.errorStatusCode,
+      errorStatusText: this.todoService.errorData.errorStatusText,
+      errorMessage: this.todoService.errorData.errorMessage
+    };
+  }
+
+  todoLoadHandler() {
+    this.todoService.getTodos();
   }
 
   todoCreateHandler(textData: string) {
-    this.todoService.addTodo(textData).subscribe(
-      () => this.getAllTodos(),
-      (error: HttpErrorResponse) => this.errorHandler(error)
-    )
-  }
-
-  todoUpdateHandler(data: TodoCheckboxUpdate | TodoTextUpdate) {
-    this.todoService.updateTodo(data).subscribe(
-      () => this.getAllTodos(),
-      (error: HttpErrorResponse) => this.errorHandler(error)
-    )
+    this.todoService.createTodo(textData);
   }
 
   todoDeleteHandler(todoId: string) {
-    this.todoService.deleteTodo(todoId).subscribe(
-      () => this.getAllTodos(),
-      (error: HttpErrorResponse) => this.errorHandler(error)
-    )
+    this.todoService.deleteTodo(todoId);
   }
 
-  ngOnInit(): void {
-    this.getAllTodos();
+  todoUpdateHandler(data: TodoCheckboxUpdate | TodoTextUpdate) {
+    this.todoService.updateTodo(data);
   }
 }

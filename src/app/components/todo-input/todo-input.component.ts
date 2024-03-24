@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { TodoService } from '../todo.service';
+import { TodoService } from '../../todo.service';
 
 @Component({
   selector: 'app-todo-input',
@@ -7,20 +7,15 @@ import { TodoService } from '../todo.service';
   styleUrl: './todo-input.component.css'
 })
 export class TodoInputComponent {
-  incorrectInput = false;
-  inputText = '';
-  @Output() submitTodo = new EventEmitter<string>(); // creating custom event 'todoSubmit'
+  inputText = ''; // two-way binding
+  inCorrectFormSubmit = false; // two-way binding
+  @Output() submitTodo = new EventEmitter<string>();
 
   constructor(private todoService: TodoService) {}
-
-  get cssClasses() {
-    return this.incorrectInput ? ['form-control', 'incorrect'] : ['form-control'];
-  }
 
   inputChangeHandler(event: Event) {
     const el = event.target! as HTMLInputElement;
     this.inputText = el.value;
-    this.incorrectInput = false;
   }
 
   formSubmitHandler(event: SubmitEvent) {
@@ -29,10 +24,10 @@ export class TodoInputComponent {
       this.inputText.length > this.todoService.minTodoTextLength &&
       this.inputText.length < this.todoService.maxTodoTextLength
       ) {
-      this.submitTodo.emit(this.inputText); // emitting event with data
+      this.submitTodo.emit(this.inputText);
       this.inputText = '';
     } else {
-      this.incorrectInput = true;
+      this.inCorrectFormSubmit = true;
     }
   }
 }
