@@ -11,6 +11,7 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
 import { LoadingMessageComponent } from './components/loading-message/loading-message.component';
 import { AutofocusDirective } from './directives/autofocus.directive';
 import { InCorrectInputDirective } from './directives/incorrect-input.directive';
+import { ImportanceDirective } from './directives/importance.directive';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { InCorrectInputDirective } from './directives/incorrect-input.directive'
     LoadingSpinnerComponent,
     LoadingMessageComponent,
     AutofocusDirective,
-    InCorrectInputDirective
+    InCorrectInputDirective,
+    ImportanceDirective
   ],
   imports: [
     BrowserModule,

@@ -4,6 +4,7 @@ import TodoCheckboxUpdate from './models/todo-checkbox-update.model';
 import TodoTextUpdate from './models/todo-text-update.model';
 import Todo from './models/todo.model';
 import ErrorData from './models/error-data.model';
+import TodoPriorityUpdate from './models/todo-priority-update.model';
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +47,7 @@ export class TodoService {
       )
   }
 
-  updateTodo(data: TodoCheckboxUpdate | TodoTextUpdate) {
+  updateTodo(data: TodoCheckboxUpdate | TodoTextUpdate | TodoPriorityUpdate) {
     const options: any = {};
 
     if (data instanceof TodoCheckboxUpdate) {
@@ -54,6 +55,9 @@ export class TodoService {
     }
     if (data instanceof TodoTextUpdate) {
       options.text = data.newText;
+    }
+    if (data instanceof TodoPriorityUpdate) {
+      options.priority = data.priority;
     }
 
     return this.http

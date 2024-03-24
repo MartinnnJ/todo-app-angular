@@ -2,6 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TodoService } from '../../todo.service';
 import TodoCheckboxUpdate from '../../models/todo-checkbox-update.model';
 import TodoTextUpdate from '../../models/todo-text-update.model';
+import TodoPriorityUpdate from '../../models/todo-priority-update.model';
+
+let timerId: any; // for debouncing
 
 @Component({
   selector: 'app-todo-list-item',
@@ -12,18 +15,21 @@ export class TodoListItemComponent implements OnInit {
   isEditing = false;
   inCorrectFormSubmit = false; // two-way binding
   inputEditText = ''; // two-way binding
+  priorityValue = 1; // two-way binding
 
   @Input() todoId!: string;
   @Input() todoText!: string;
+  @Input() todoPriority!: number;
   @Input() todoIsComplete!: boolean;
 
   @Output() deleteTodo = new EventEmitter<string>();
-  @Output() updateTodo = new EventEmitter<TodoCheckboxUpdate | TodoTextUpdate>();
+  @Output() updateTodo = new EventEmitter<TodoCheckboxUpdate | TodoTextUpdate | TodoPriorityUpdate>();
 
   constructor(private todoService: TodoService) {}
 
   ngOnInit(): void {
     this.inputEditText = this.todoText;
+    this.priorityValue = this.todoPriority;
   }
 
   get todoTextClasses() {
@@ -43,6 +49,19 @@ export class TodoListItemComponent implements OnInit {
     this.updateTodo.emit(
       new TodoCheckboxUpdate(id, val)
     );
+  }
+
+  priorityChangeHandler(event: Event, id: string) {
+    const el = event.target! as HTMLInputElement;
+    this.priorityValue = +el.value;
+    // debouncing
+    clearTimeout(timerId);
+    timerId = setTimeout(() => {
+      console.log('todo priority updated');
+      this.updateTodo.emit(
+        new TodoPriorityUpdate(id, this.priorityValue)
+      )
+    }, 600);
   }
 
   formSubmitHandler(event: SubmitEvent, id: string) {

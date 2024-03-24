@@ -1,4 +1,8 @@
-<li class="border p-2 mb-3 rounded">
+<li
+  class="p-2 mb-3 rounded"
+  [importance]="priorityValue"
+  appImportance
+>
 
   <input
     class="form-check-input"
@@ -6,6 +10,15 @@
     [checked]="isComplete"
     (change)="checkboxChangeHandler(isComplete, todoId)"
     [disabled]="isEditing"
+  />
+
+  <input
+    type="number"
+    class="form-control form-control-sm"
+    min="1"
+    max="10"
+    (change)="priorityChangeHandler($event, todoId)"
+    [value]="todoPriority"
   />
 
   <p

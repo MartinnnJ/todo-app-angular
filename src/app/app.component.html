@@ -37,6 +37,7 @@
       *ngFor="let todo of filteredTodos"
       [todoId]="todo.id"
       [todoText]="todo.text"
+      [todoPriority]="todo.priority"
       [todoIsComplete]="todo.isComplete"
       (updateTodo)="todoUpdateHandler($event)"
       (deleteTodo)="todoDeleteHandler($event)"

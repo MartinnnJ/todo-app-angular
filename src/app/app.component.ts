@@ -3,6 +3,7 @@ import { TodoService } from './todo.service';
 import TodoCheckboxUpdate from './models/todo-checkbox-update.model';
 import TodoTextUpdate from './models/todo-text-update.model';
 import Todo from './models/todo.model';
+import TodoPriorityUpdate from './models/todo-priority-update.model';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +26,8 @@ export class AppComponent implements OnInit {
       (todo: Todo) => todo.isComplete === false,
     ];
     return this.todoService.todos
-      .filter(filterOptions[+this.filterValue]);
+      .filter(filterOptions[+this.filterValue])
+      .sort((a, b) => b.priority - a.priority);
   }
 
   get noLoadingError() {
@@ -58,7 +60,7 @@ export class AppComponent implements OnInit {
     this.todoService.deleteTodo(todoId);
   }
 
-  todoUpdateHandler(data: TodoCheckboxUpdate | TodoTextUpdate) {
+  todoUpdateHandler(data: TodoCheckboxUpdate | TodoTextUpdate | TodoPriorityUpdate) {
     this.todoService.updateTodo(data);
   }
 }

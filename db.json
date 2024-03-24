@@ -3,26 +3,31 @@
     {
       "id": "0.26469143506332804",
       "text": "Learn Angular!",
-      "isComplete": true
+      "priority": 8,
+      "isComplete": false
     },
     {
       "id": "0.30864861765472407",
       "text": "TypeScript is much better then JavaScript",
+      "priority": 4,
       "isComplete": true
     },
     {
       "id": "0.17440940458499066",
       "text": "jquery is dead (thank God!)",
+      "priority": 2,
       "isComplete": true
     },
     {
       "id": "0.5790300330245297",
       "text": "React is also very good library",
+      "priority": 1,
       "isComplete": false
     },
     {
       "id": "0.7230716950838438",
       "text": "Go to Walmart and buy there some milk and sugar",
+      "priority": 7,
       "isComplete": false
     }
   ]
