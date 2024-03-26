@@ -12,6 +12,7 @@ import TodoPriorityUpdate from './models/todo-priority-update.model';
 })
 export class AppComponent implements OnInit {
   filterValue = "0"; // two-way binding
+  sortValue = 0; // two-way binding
 
   constructor(private todoService: TodoService) {}
 
@@ -26,8 +27,11 @@ export class AppComponent implements OnInit {
       (todo: Todo) => todo.isComplete === false,
     ];
     return this.todoService.todos
-      .filter(filterOptions[+this.filterValue])
-      .sort((a, b) => b.priority - a.priority);
+      .filter(filterOptions[+this.filterValue]);
+  }
+
+  sortTodosHandler() {
+    this.todoService.sortTodos(this.sortValue);
   }
 
   get noLoadingError() {

@@ -1,0 +1,30 @@
+<div class="dropdown">
+  <button
+    type="button"
+    [ngClass]="cssButtonClasses"
+    data-bs-toggle="dropdown"
+    [attr.aria-expanded]="isOpen"
+    (click)="toggleOpen()"
+  >
+    {{ dropdownLabelText }}
+  </button>
+  <ul [ngClass]="cssListClasses">
+    <li>
+      <a
+        class="dropdown-item"
+        *ngFor="let item of dropdownData"
+        [attr.data-value]="item.value"
+        (click)="listItemSelected($event)"
+      >
+        {{ item.label }}
+      </a>
+    </li>
+  </ul>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="sortButtonClicked()"
+  >
+    Sort
+  </button>
+</div>

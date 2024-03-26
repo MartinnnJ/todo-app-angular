@@ -1,0 +1,16 @@
+.dropdown-toggle {
+  position: relative;
+  width: 125px;
+  text-align: left;
+  margin-right: 1rem;
+}
+
+.dropdown-toggle::after {
+  position: absolute;
+  top: 45%;
+  right: 10px;
+}
+
+a {
+  cursor: pointer;
+}

@@ -12,6 +12,7 @@ import { LoadingMessageComponent } from './components/loading-message/loading-me
 import { AutofocusDirective } from './directives/autofocus.directive';
 import { InCorrectInputDirective } from './directives/incorrect-input.directive';
 import { ImportanceDirective } from './directives/importance.directive';
+import { TodoSortComponent } from './components/todo-sort/todo-sort.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ImportanceDirective } from './directives/importance.directive';
     LoadingMessageComponent,
     AutofocusDirective,
     InCorrectInputDirective,
-    ImportanceDirective
+    ImportanceDirective,
+    TodoSortComponent
   ],
   imports: [
     BrowserModule,

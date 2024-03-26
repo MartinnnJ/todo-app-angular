@@ -8,9 +8,15 @@
     (submitTodo)="todoCreateHandler($event)"
   />
 
-  <app-todo-select
-    [(selectValue)]="filterValue"
-  />
+  <div class="filters">
+    <app-todo-select
+      [(selectValue)]="filterValue"
+    />
+    <app-todo-sort
+      [(selectValue)]="sortValue"
+      (sortTodos)="sortTodosHandler()"
+    />
+  </div>
 
   <app-loading-message
     *ngIf="errorState.isLoadingError"

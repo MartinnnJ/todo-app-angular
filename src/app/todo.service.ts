@@ -12,6 +12,7 @@ import TodoPriorityUpdate from './models/todo-priority-update.model';
 export class TodoService {
   todos: Todo[] = [];
   todosAreLoading = false;
+  todoOrder: string[] = [];
   errorData = new ErrorData();
 
   baseUrl = 'http://127.0.0.1:3000';
@@ -20,11 +21,41 @@ export class TodoService {
 
   constructor(private http: HttpClient) {}
 
+  sortTodos(val: number) {
+    if (val === 0) {
+      this.getTodos();
+      this.todoOrder = [];
+    }
+    if (val === 1) {
+      this.todos = this.todos
+        .sort((a, b) => b.priority - a.priority);
+
+      this.todoOrder = this.todos.map(todo => todo.id);
+    }
+    if (val === 2) {
+      this.todos = this.todos
+        .sort((a, b) => a.priority - b.priority);
+
+      this.todoOrder = this.todos.map(todo => todo.id);
+    }
+  }
+
   getTodos() {
     this.todosAreLoading = true;
     return this.http
       .get<Todo[]>(`${this.baseUrl}/todos`).subscribe((data: Todo[]) => {
         this.todos = data;
+        if (this.todoOrder.length > 0) {
+          this.todos = this.todoOrder.map(idString => {
+            const todo = this.todos.find(todo => todo.id === idString)!;
+            return {
+              id: todo.id,
+              text: todo.text,
+              priority: todo.priority,
+              isComplete: todo.isComplete,
+            }
+          })
+        }
         this.todosAreLoading = false;
         this.errorData = new ErrorData(false, null, null, null);
       },
@@ -32,9 +63,16 @@ export class TodoService {
   }
 
   createTodo(str: string) {
+    const todo = new Todo(str);
+
     return this.http
-      .post<Todo>(`${this.baseUrl}/todos`, new Todo(str)).subscribe(
-        () => this.getTodos(),
+      .post<Todo>(`${this.baseUrl}/todos`, todo).subscribe(
+        () => {
+          if (this.todoOrder.length > 0) {
+            this.todoOrder.push(todo.id);
+          }
+          this.getTodos();
+        },
         (error: HttpErrorResponse) => this.errorHandler(error)
       )
   }
@@ -42,7 +80,13 @@ export class TodoService {
   deleteTodo(id: string) {
     return this.http
       .delete<Todo>(`${this.baseUrl}/todos/${id}`).subscribe(
-        () => this.getTodos(),
+        () => {
+          if (this.todoOrder.length > 0) {
+            const index = this.todoOrder.findIndex(str => str === id);
+            this.todoOrder.splice(index, 1);
+          }
+          this.getTodos();
+        },
         (error: HttpErrorResponse) => this.errorHandler(error)
       )
   }
